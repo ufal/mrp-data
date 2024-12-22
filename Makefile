@@ -1,5 +1,5 @@
 SHELL=/bin/bash
-MTOOL=/lnet/spec/work/projects/mrptask/mtool/main.py
+MTOOL=/net/work/people/zeman/mrptask-2019-data-neverzovano/mtool/main.py
 
 ensample:
 	treex -Len Read::Treex from=source-pcedt20/data/00/wsj_0001.treex.gz Write::MrpJSON > wsj.mrp
