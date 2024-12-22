@@ -29,6 +29,7 @@ cssample:
 	for i in 01 02 03 04 05 06 07 08 09 10 ; do ( $(MTOOL) --read mrp --id 129307131560$$i --write dot --ids --strings pdt.mrp pdt$$i.dot && dot -Tpng pdt$$i.dot > pdt$$i.png ) ; rm pdt$$i.dot ; done
 
 pdt:
+	mkdir -p mrp-pdt35
 	treex -Lcs Read::PDT from='!/net/data/pdt35/PDT3.5/data/tamw/*/*.t.gz' Write::MrpJSON substitute={/net/data/pdt35/PDT3.5/data/tamw}{mrp-pdt35}
 
 validate_pdt:
