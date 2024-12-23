@@ -21,7 +21,8 @@ validate_pdt:
 # Here we convert PDT-C 2.0 to the same format (taken from a clone of the PDT-C GitHub repository).
 pdtc:
 	mkdir -p mrp-pdtc20
-	treex -Lcs Read::PDT from='!/net/work/people/zeman/pdtc/WorkData2.0/PDT/pml/tamw/*/*.t' Write::MrpJSON substitute={/net/work/people/zeman/pdtc/WorkData2.0/PDT/pml/tamw}{mrp-pdtc20}
+	#treex -Lcs Read::PDT from='!/net/work/people/zeman/pdtc/WorkData2.0/PDT/pml/tamw/*/*.t' Write::MrpJSON substitute={/net/work/people/zeman/pdtc/WorkData2.0/PDT/pml/tamw}{mrp-pdtc20}
+	treex -Lcs Read::PDT from='!/net/work/people/zeman/pdtc/WorkData2.0/PCEDT-cz/pml/*.t' Write::MrpJSON substitute={/net/work/people/zeman/pdtc/WorkData2.0/PCEDT-cz/pml}{mrp-pdtc20/PCEDT-cz}
 
 
 
