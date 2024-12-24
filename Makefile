@@ -19,10 +19,13 @@ validate_pdt:
 
 # Czech data for MRP 2020 was from PDT 3.5 as shown above.
 # Here we convert PDT-C 2.0 to the same format (taken from a clone of the PDT-C GitHub repository).
+PDTCDIR=/net/work/people/zeman/pdtc/WorkData2.0
 pdtc:
-	mkdir -p mrp-pdtc20
-	#treex -Lcs Read::PDT from='!/net/work/people/zeman/pdtc/WorkData2.0/PDT/pml/tamw/*/*.t' Write::MrpJSON substitute={/net/work/people/zeman/pdtc/WorkData2.0/PDT/pml/tamw}{mrp-pdtc20}
-	treex -Lcs Read::PDT from='!/net/work/people/zeman/pdtc/WorkData2.0/PCEDT-cz/pml/*.t' Write::MrpJSON substitute={/net/work/people/zeman/pdtc/WorkData2.0/PCEDT-cz/pml}{mrp-pdtc20/PCEDT-cz}
+	mkdir -p mrp-pdtc20/PDT mrp-pdtc20/PCEDT-cz mrp-pdtc20/PDTSC mrp-pdtc20/Faust
+	#treex -Lcs Read::PDT from='!$(PDTCDIR)/PDT/pml/tamw/*/*.t' Write::MrpJSON substitute={$(PDTCDIR)/PDT/pml/tamw}{mrp-pdtc20/PDT}
+	#treex -Lcs Read::PDT from='!$(PDTCDIR)/PCEDT-cz/pml/*.t' Write::MrpJSON substitute={$(PDTCDIR)/PCEDT-cz/pml}{mrp-pdtc20/PCEDT-cz}
+	treex -Lcs Read::PDT from='!$(PDTCDIR)/PDTSC/pml/*.t' Write::MrpJSON substitute={$(PDTCDIR)/PDTSC/pml}{mrp-pdtc20/PDTSC}
+	treex -Lcs Read::PDT from='!$(PDTCDIR)/Faust/pml/*.t' Write::MrpJSON substitute={$(PDTCDIR)/Faust/pml}{mrp-pdtc20/Faust}
 
 
 
