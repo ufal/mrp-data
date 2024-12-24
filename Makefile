@@ -22,10 +22,16 @@ validate_pdt:
 PDTCDIR=/net/work/people/zeman/pdtc/WorkData2.0
 pdtc:
 	mkdir -p mrp-pdtc20/PDT mrp-pdtc20/PCEDT-cz mrp-pdtc20/PDTSC mrp-pdtc20/Faust
-	#treex -Lcs Read::PDT from='!$(PDTCDIR)/PDT/pml/tamw/*/*.t' Write::MrpJSON substitute={$(PDTCDIR)/PDT/pml/tamw}{mrp-pdtc20/PDT}
-	#treex -Lcs Read::PDT from='!$(PDTCDIR)/PCEDT-cz/pml/*.t' Write::MrpJSON substitute={$(PDTCDIR)/PCEDT-cz/pml}{mrp-pdtc20/PCEDT-cz}
+	treex -Lcs Read::PDT from='!$(PDTCDIR)/PDT/pml/tamw/*/*.t' Write::MrpJSON substitute={$(PDTCDIR)/PDT/pml/tamw}{mrp-pdtc20/PDT}
+	treex -Lcs Read::PDT from='!$(PDTCDIR)/PCEDT-cz/pml/*.t' Write::MrpJSON substitute={$(PDTCDIR)/PCEDT-cz/pml}{mrp-pdtc20/PCEDT-cz}
 	treex -Lcs Read::PDT from='!$(PDTCDIR)/PDTSC/pml/*.t' Write::MrpJSON substitute={$(PDTCDIR)/PDTSC/pml}{mrp-pdtc20/PDTSC}
 	treex -Lcs Read::PDT from='!$(PDTCDIR)/Faust/pml/*.t' Write::MrpJSON substitute={$(PDTCDIR)/Faust/pml}{mrp-pdtc20/Faust}
+
+validate_pdtc:
+	( for i in mrp-pdtc20/PDT/*/*.mrp ; do echo $$i ; $(MTOOL) --read mrp --validate all $$i ; done ) |& tee validation-pdt.log
+	( for i in mrp-pdtc20/PCEDT-cz/*.mrp ; do echo $$i ; $(MTOOL) --read mrp --validate all $$i ; done ) |& tee validation-pcedt.log
+	( for i in mrp-pdtc20/PDTSC/*.mrp ; do echo $$i ; $(MTOOL) --read mrp --validate all $$i ; done ) |& tee validation-pdtsc.log
+	( for i in mrp-pdtc20/Faust/*.mrp ; do echo $$i ; $(MTOOL) --read mrp --validate all $$i ; done ) |& tee validation-faust.log
 
 
 
