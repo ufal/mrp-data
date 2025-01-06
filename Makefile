@@ -19,6 +19,8 @@ validate_pdt:
 
 # Czech data for MRP 2020 was from PDT 3.5 as shown above.
 # Here we convert PDT-C 2.0 to the same format (taken from a clone of the PDT-C GitHub repository).
+# Some sentences in PDT-C 2.0 are empty (or at least they have empty t-tree), which is not allowed in MRP.
+# We remove such sentences from MrpJSON after conversion.
 PDTCDIR=/net/work/people/zeman/pdtc/WorkData2.0
 pdtc:
 	mkdir -p mrp-pdtc20/PDT mrp-pdtc20/PCEDT-cz mrp-pdtc20/PDTSC mrp-pdtc20/Faust
@@ -26,6 +28,12 @@ pdtc:
 	treex -Lcs Read::PDT from='!$(PDTCDIR)/PCEDT-cz/pml/*.t' Write::MrpJSON substitute={$(PDTCDIR)/PCEDT-cz/pml}{mrp-pdtc20/PCEDT-cz}
 	treex -Lcs Read::PDT from='!$(PDTCDIR)/PDTSC/pml/*.t' Write::MrpJSON substitute={$(PDTCDIR)/PDTSC/pml}{mrp-pdtc20/PDTSC}
 	treex -Lcs Read::PDT from='!$(PDTCDIR)/Faust/pml/*.t' Write::MrpJSON substitute={$(PDTCDIR)/Faust/pml}{mrp-pdtc20/Faust}
+
+remove_empty_sentences_pdtc:
+	( for i in mrp-pdtc20/PDT/*/*.mrp ; do echo $$i ; cp $$i backup.mrp ; grep -v -P '"input": "",' backup.mrp > $$i ; rm backup.mrp ; done ) |& tee validation-pdt.log
+	( for i in mrp-pdtc20/PCEDT-cz/*.mrp ; do echo $$i ; cp $$i backup.mrp ; grep -v -P '"input": "",' backup.mrp > $$i ; rm backup.mrp ; done ) |& tee validation-pcedt.log
+	( for i in mrp-pdtc20/PDTSC/*.mrp ; do echo $$i ; cp $$i backup.mrp ; grep -v -P '"input": "",' backup.mrp > $$i ; rm backup.mrp ; done ) |& tee validation-pdtsc.log
+	( for i in mrp-pdtc20/Faust/*.mrp ; do echo $$i ; cp $$i backup.mrp ; grep -v -P '"input": "",' backup.mrp > $$i ; rm backup.mrp ; done ) |& tee validation-faust.log
 
 validate_pdtc:
 	( for i in mrp-pdtc20/PDT/*/*.mrp ; do echo $$i ; $(MTOOL) --read mrp --validate all $$i ; done ) |& tee validation-pdt.log
